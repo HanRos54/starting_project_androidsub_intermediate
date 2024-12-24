@@ -2,19 +2,32 @@ package com.example.storyapp_submission.view.register
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.storyapp_submission.R
 
 import com.example.storyapp_submission.databinding.ActivityRegisterBinding
+import com.example.storyapp_submission.utils.parseErrorMessage
+import com.example.storyapp_submission.view.ViewModelFactory
+import com.example.storyapp_submission.view.login.LoginActivity
+import retrofit2.HttpException
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+
+    private val registerViewModel by viewModels<RegisterViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +37,8 @@ class RegisterActivity : AppCompatActivity() {
 
         setupView()
         playAnimation()
+        setupAction()
+        observeRegisterResult()
     }
 
     private fun setupView() {
@@ -76,6 +91,58 @@ class RegisterActivity : AppCompatActivity() {
             startDelay = 100
         }.start()
     }
+
+    private fun setupAction()
+    {
+        binding.signupButton.setOnClickListener {
+            val name = binding.nameEditText.text.toString().trim()
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
+
+            registerViewModel.register(name,email,password)
+        }
+    }
+
+    private fun observeRegisterResult()
+    {
+        registerViewModel.isLoading.observe(this) {isLoading->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        registerViewModel.registerResult.observe(this) {
+            it.onSuccess { response ->
+                if (response.error == false)
+                {
+                    showSuccessDialog(binding.emailEditText.text.toString())
+                } else {
+                    Toast.makeText(this, response.message ?: getString(R.string.register_failed), Toast.LENGTH_SHORT).show()
+                }
+            }.onFailure { error ->
+                val errorMessage = if (error is HttpException) {
+                    parseErrorMessage(error)
+                } else {
+                    error.message ?: getString(R.string.error_failed)
+                }
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun showSuccessDialog(toString: String) {
+        AlertDialog.Builder(this).apply {
+            setTitle(getString(R.string.regist_success))
+            setMessage(getString(R.string.message_register_success))
+            setPositiveButton(getString(R.string.login)) { _, _ ->
+                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                finish()
+            }
+            create()
+            show()
+        }
+    }
+
 
 
 }

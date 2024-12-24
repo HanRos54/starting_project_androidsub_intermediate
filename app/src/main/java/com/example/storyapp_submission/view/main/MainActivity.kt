@@ -1,4 +1,4 @@
-package com.example.storyapp_submission.main
+package com.example.storyapp_submission.view.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,11 +6,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.example.storyapp_submission.addstory.AddStoryActivity
+import com.example.storyapp_submission.view.addstory.AddStoryActivity
 import com.example.storyapp_submission.R
 import com.example.storyapp_submission.databinding.ActivityMainBinding
-import com.example.storyapp_submission.login.LoginActivity
-import com.example.storyapp_submission.welcome.WelcomeActivity
+import com.example.storyapp_submission.view.login.LoginActivity
+import com.example.storyapp_submission.view.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding

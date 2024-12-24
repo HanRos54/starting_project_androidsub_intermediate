@@ -1,4 +1,4 @@
-package com.example.storyapp_submission.main
+package com.example.storyapp_submission.view.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

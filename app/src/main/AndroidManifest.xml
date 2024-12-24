@@ -13,24 +13,24 @@
         android:theme="@style/Theme.StoryApp_Submission"
         tools:targetApi="31">
         <activity
-            android:name=".register.RegisterActivity"
+            android:name=".view.register.RegisterActivity"
             android:exported="false"
             android:theme="@style/Theme.StoryApp_Submission" />
         <activity
-            android:name=".welcome.WelcomeActivity"
+            android:name=".view.welcome.WelcomeActivity"
             android:exported="false"
             android:theme="@style/Theme.StoryApp_Submission" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".view.login.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.StoryApp_Submission" />
         <activity
-            android:name=".addstory.AddStoryActivity"
+            android:name=".view.addstory.AddStoryActivity"
             android:exported="false"
             android:label="@string/new_story"
             android:theme="@style/New_Story" />
         <activity
-            android:name=".main.MainActivity"
+            android:name=".view.main.MainActivity"
             android:exported="true"
             android:label="@string/story"
             android:theme="@style/Story_Dashboard">

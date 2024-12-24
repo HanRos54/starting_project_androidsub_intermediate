@@ -1,4 +1,4 @@
-package com.example.storyapp_submission.addstory
+package com.example.storyapp_submission.view.addstory
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
